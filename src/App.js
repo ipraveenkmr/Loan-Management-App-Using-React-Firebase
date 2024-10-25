@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Outlet } from 'react-router-dom';
+import { AppProvider } from '@toolpad/core/react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-function App() {
+const NAVIGATION = [
+  {
+    kind: 'header',
+    title: 'Main items',
+  },
+  {
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: 'about',
+    title: 'About',
+    icon: <ShoppingCartIcon />,
+  },
+  {
+    segment: 'contact',
+    title: 'Contact',
+    icon: <ShoppingCartIcon />,
+  },
+];
+
+
+export default function App() {
+
+  const [session, setSession] = React.useState({
+    user: {
+      name: 'Praveen Kumar',
+      email: 'praveen@codingmstr.com',
+      image: <AccountCircleIcon />,
+    },
+  });
+
+  const authentication = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setSession({
+          user: {
+            name: 'Bharat Kashyap',
+            email: 'praveen@codingmstr.com',
+            image: <AccountCircleIcon />,
+          },
+        });
+      },
+      signOut: () => {
+        setSession(null);
+      },
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppProvider
+      session={session}
+      authentication={authentication}
+      navigation={NAVIGATION}
+      branding={{
+        logo: <img src="https://codingmstr.com/img/logo-white.png" alt="MUI logo" />,
+        title: 'CodingMSTR',
+      }}
+    >
+      <Outlet />
+    </AppProvider>
   );
 }
-
-export default App;
