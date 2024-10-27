@@ -4,10 +4,13 @@ import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import Layout from './layouts/Layout';
+import AuthLayout from './auth/Layout';
 import Dashboard from './pages/Dashboard';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import reportWebVitals from './reportWebVitals';
+import Login from './auth/Login';
+import Register from './auth/Register';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,20 @@ const router = createBrowserRouter([
             Component: Contact,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: '/auth',
+    Component: AuthLayout,
+    children: [
+      {
+        path: 'login',
+        Component: Login,
+      },
+      {
+        path: 'register',
+        Component: Register,
       },
     ],
   },
